@@ -1,4 +1,9 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 
-print("Hello, world!")
+import Foundation
+
+let calibrations = Calibration.calibrations
+
+let total = calibrations.calibrationResult()
+print("Total part 2: \(total)")
