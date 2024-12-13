@@ -60,36 +60,43 @@ extension Machine {
         return result
     }
 
-    /*
-     This code would perfectly work for part 1, but it's too slow for part 2.
-     */
     func cheapestWin(isPart2: Bool) -> (buttonA: Int, buttonB: Int) {
-        var minSteps = Int.max
-        var optimalA = 0
-        var optimalB = 0
+        /*
+         This function implies that the problem can be resolved by using a technique
+         from linear algebra/mathematics called linear combinations.
+         Essentially, the increments of coordinates when the buttons are pressed form a system of linear equations
+         that can be solved to find how many times you should press each button.
 
-        let maxSteps = isPart2 ? 100000 : 100
+         The coefficients of the system of equations are the increments for each button press,
+         and solving the system involves finding the correct multiples for these coefficients that
+         add up to the final required coordinates.
+         In matrix form, it becomes ax + by = p, where a and b are constants (buttonA.x/buttonA.y, buttonB.x/buttonB.y),
+         x and y are the variables we want to solve for (buttonA, buttonB presses),
+         and p is the point we want to reach (prize.x, prize.y).
+         */
+        let ax = Double(buttonA.x)
+        let bx = Double(buttonB.x)
+        let ay = Double(buttonA.y)
+        let by = Double(buttonB.y)
+        var px = Double(prize.x)
+        var py = Double(prize.y)
 
-        var prize = self.prize
         if isPart2 {
-            prize.x += 10000000000000
-            prize.y += 10000000000000
+            px += 10000000000000
+            py += 10000000000000
         }
 
-        for a in 0...maxSteps {
-            for b in 0...maxSteps {
-                if buttonA.x * a + buttonB.x * b == prize.x && buttonA.y * a + buttonB.y * b == prize.y {
-                    let steps = a + b
-                    if steps < minSteps {
-                        minSteps = steps
-                        optimalA = a
-                        optimalB = b
-                    }
-                }
-            }
-        }
+        let aRatio = (px - py*(bx/by))/(ax - ay*(bx/by))
+        let bRatio = (px - py*(ax/ay))/(bx - by*(ax/ay))
 
-        return (buttonA: optimalA, buttonB: optimalB)
+        if abs(aRatio.rounded(.toNearestOrEven) - aRatio) < 0.01
+            && abs(bRatio.rounded(.toNearestOrEven) - bRatio) < 0.01 {
+            return (buttonA: Int(aRatio.rounded(.toNearestOrEven)), buttonB: Int(bRatio.rounded(.toNearestOrEven)))
+
+        } else {
+            // Can't be solved
+            return (buttonA: 0, buttonB: 0)
+        }
     }
 
     func tokens(isPart2: Bool) -> Int {
