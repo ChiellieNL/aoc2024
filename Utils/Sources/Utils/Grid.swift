@@ -31,6 +31,19 @@ public struct Grid {
         }
     }
 
+    public init(width: Int, height: Int, fill: String) {
+        for y in 0..<height {
+            for x in 0..<width {
+                let point = Point(x: x, y: y)
+                grid[point] = fill
+            }
+        }
+    }
+
+    public init(size: Size, fill: String) {
+        self.init(width: size.width, height: size.height, fill: fill)
+    }
+
     /// The highest x value in the grid
     public var maxX: Int {
         guard !grid.isEmpty else { return 0 }
@@ -45,6 +58,11 @@ public struct Grid {
 
     /// The grid's value at the specified point
     public subscript(_ point: Point) -> String? {
-        grid[point]
+        get {
+            grid[point]
+        }
+        set {
+            grid[point] = newValue
+        }
     }
 }
