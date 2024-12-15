@@ -114,4 +114,8 @@ public struct Grid<Content: GridContent> {
             Swift.print(line)
         }
     }
+
+    public func first(_ content: Content) -> Point? {
+        grid.first(where: { $0.value == content })?.key
+    }
 }
