@@ -71,7 +71,7 @@ struct Region {
 }
 
 extension Region {
-    static func map(_ grid: Grid) -> [Region] {
+    static func map(_ grid: Grid<String>) -> [Region] {
         var result: [Region] = []
 
         for y in 0...grid.maxY {

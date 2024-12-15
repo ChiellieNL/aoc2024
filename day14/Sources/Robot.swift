@@ -104,7 +104,7 @@ extension Array where Element == Robot {
         }
     }
 
-    func hexGrid(gridSize: Size) -> Grid {
+    func hexGrid(gridSize: Size) -> Grid<String> {
         var grid = Grid(size: gridSize, fill: ".")
         for robot in self {
             grid[robot.position] = "#"
@@ -119,14 +119,8 @@ extension Grid {
         var line = ""
         for x in 0...self.maxX {
             let point = Point(x: x, y: y)
-            line += self[point]!
+            line += self[point] as! String
         }
         return line
-    }
-
-    func print() {
-        for y in 0...self.maxY {
-            Swift.print(self.dump(at: y))
-        }
     }
 }

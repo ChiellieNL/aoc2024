@@ -4,7 +4,7 @@
 import Foundation
 import Utils
 
-let grid = Grid(from: rawInput)
+let grid = Grid<String>(from: rawInput)
 let regions = Region.map(grid)
 
 let total1 = regions.reduce(0) { $0 + ($1.area * $1.perimeter) }
